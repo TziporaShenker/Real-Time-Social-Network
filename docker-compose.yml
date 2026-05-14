@@ -1,0 +1,62 @@
+services:
+  # --- Database (PostgreSQL) ---
+  db:
+    image: postgres:15-alpine
+    container_name: social_network_db
+    restart: always
+    environment:
+      POSTGRES_USER: tzipora
+      POSTGRES_PASSWORD: ninja
+      POSTGRES_DB: realtime_social_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  # --- Database Management (pgAdmin) ---
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: social_network_pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: tzp81134@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+
+  # --- Backend (Node.js API) ---
+  server:
+    build: ./server
+    container_name: social_network_api
+    restart: always
+    environment:
+      # Critical Change: We use 'db' (the service name) instead of 'localhost'
+      DATABASE_URL: postgres://tzipora:ninja@db:5432/realtime_social_db
+      PORT: 5000
+      JWT_SECRET: your_jwt_secret_here
+      NODE_ENV: development
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+
+  # --- Frontend (Vite / React) ---
+  client:
+    build: ./client
+    container_name: social_network_frontend
+    restart: always
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:5000/api
+    depends_on:
+      - server
+
+volumes:
+  pgdata:
+  pgadmin-data:
