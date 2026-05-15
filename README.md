@@ -85,9 +85,6 @@ docker-compose up --build
 ## 📂 Project Structure
 The project follows a clean and structured architecture to ensure maintainability and scalability:
 
-## 📂 Project Structure
-The project follows a clean and structured architecture to ensure maintainability and scalability:
-
 ```text
 ├── assets/             # Images, ERDs, and Screenshots
 ├── client/             # Frontend: React + TS + MUI
