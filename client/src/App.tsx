@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { AIProvider } from './context/AIContext';
 import Navbar from './components/Navbar';
 import Login from './pages/Login';
 import Feed from './pages/Feed';
@@ -53,7 +54,9 @@ const AppRoutes = () => {
 function App() {
   return (
     <AuthProvider>
-      <AppRoutes />
+      <AIProvider>
+        <AppRoutes />
+      </AIProvider>
     </AuthProvider>
   );
 }

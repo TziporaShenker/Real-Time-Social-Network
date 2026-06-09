@@ -22,15 +22,21 @@ A professional full-stack social networking platform built with modern technolog
 *   **Session Management**: JWT-based authentication featuring Access and Refresh token logic.
 *   **Authorization**: Strict server-side validation ensuring users can only edit their own profiles and content.
 
+### **AI Integration**
+* **Context-Aware Assistant**: A floating chat widget that seamlessly detects the active post in view using `IntersectionObserver` and maintains context via React Context API.
+* **Smart Suggestions**: Powered by **Google Gemini 2.5 Flash**, the backend synthesizes the user's prompt with real-time post data from PostgreSQL to draft professional, tailored comments.
+* **Graceful Degradation**: Built-in error handling and fallback UI for API rate limits, loading states, and network disruptions.
+
 ---
 
 ## 🛠 Tech Stack
 
-*   **Frontend**: React, **TypeScript**, **Material UI (MUI)**.
-*   **Backend**: Node.js, Express, **TypeScript**.
-*   **Real-Time**: Socket.io.
-*   **Database**: **PostgreSQL** (Chosen for relational integrity and ACID compliance).
-*   **DevOps**: Docker, Docker Compose.
+* **Frontend**: React, **TypeScript**, **Material UI (MUI)**.
+* **Backend**: Node.js, Express, **TypeScript**.
+* **Real-Time**: Socket.io.
+* **AI & Integration**: `@google/genai` (Google Gemini API).
+* **Database**: **PostgreSQL** (Chosen for relational integrity and ACID compliance).
+* **DevOps**: Docker, Docker Compose.
 
 ---
 
@@ -68,6 +74,7 @@ DB_USER=your_user
 DB_PASSWORD=your_password
 DB_NAME=social_network
 JWT_SECRET=your_jwt_secret
+GEMINI_API_KEY=your_google_gemini_api_key
 ```
 ### 3. Run with Docker
 The entire system (Frontend, Backend, and Database) is containerized for easy deployment. Using Docker ensures that the environment is consistent across all machines.

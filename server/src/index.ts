@@ -12,6 +12,7 @@ import userRoutes from "./routes/userRoutes";
 import commentRoutes from "./routes/commentRoutes"; 
 import messageRoutes from "./routes/messageRoutes"; 
 import cookieParser from "cookie-parser";
+import aiRoutes from './routes/aiRoutes';
 
 // Load environment variables
 dotenv.config();
@@ -36,6 +37,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/comments", commentRoutes);
 app.use("/api/messages", messageRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/ai', aiRoutes);
 
 // ==========================================
 // SOCKET.IO REAL-TIME SETUP

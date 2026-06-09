@@ -2,6 +2,7 @@ import { Container, Box } from "@mui/material";
 import Sidebar from "../components/Sidebar";
 import CreatePost from "../components/CreatePost";
 import PostList from "../components/PostList";
+import FloatingAIChat from "../components/FloatingAIChat";
 
 /**
  * Feed Component
@@ -63,6 +64,7 @@ const Feed = () => {
         </Box>
         
       </Box>
+      <FloatingAIChat />
     </Container>
   );
 };

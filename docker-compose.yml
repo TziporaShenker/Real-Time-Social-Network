@@ -35,11 +35,16 @@ services:
     container_name: social_network_api
     restart: always
     environment:
-      # Critical Change: We use 'db' (the service name) instead of 'localhost'
-      DATABASE_URL: postgres://tzipora:ninja@db:5432/realtime_social_db
+      # התאמה מדויקת לקובץ db.ts ול-.env
       PORT: 5000
-      JWT_SECRET: your_jwt_secret_here
       NODE_ENV: development
+      DB_USER: tzipora
+      DB_PASSWORD: ninja
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: realtime_social_db
+      JWT_SECRET: my_ultra_secure_social_network_secret_key_2026
+      REFRESH_TOKEN_SECRET: another_very_secret_key_for_refresh_tokens_98765
     ports:
       - "5000:5000"
     depends_on:

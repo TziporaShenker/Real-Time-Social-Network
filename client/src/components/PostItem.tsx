@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Box,
   Paper,
@@ -15,6 +15,7 @@ import {
 import { Edit, Save, Cancel, DeleteOutlined } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useAI } from "../context/AIContext";
 import api from "../api/axiosConfig";
 import CommentSection from "./CommentSection";
 
@@ -54,7 +55,9 @@ interface PostItemProps {
  */
 const PostItem = ({ post, onDelete }: PostItemProps) => {
   const { user } = useAuth();
+  const { setActivePostId } = useAI();
   const navigate = useNavigate();
+  const postRef = useRef<HTMLDivElement>(null);
 
   // State to toggle between viewing and editing modes
   const [isEditing, setIsEditing] = useState(false);
@@ -85,6 +88,23 @@ const PostItem = ({ post, onDelete }: PostItemProps) => {
     setEditContent(post.content);
     setEditVisibility(post.visibility);
   }, [post]);
+
+  useEffect(() => {
+    const el = postRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+          setActivePostId(post.id);
+        }
+      },
+      { threshold: [0, 0.5, 1] },
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [post.id, setActivePostId]);
 
   /**
    * Submits the updated post content and visibility settings to the server.
@@ -123,7 +143,7 @@ const PostItem = ({ post, onDelete }: PostItemProps) => {
   };
 
   return (
-    <Paper elevation={1} sx={{ borderRadius: 2, overflow: "hidden", mb: 2 }}>
+    <Paper ref={postRef} elevation={1} sx={{ borderRadius: 2, overflow: "hidden", mb: 2 }}>
       
       {/* --- HEADER SECTION --- */}
       {/* Displays user info, timestamp, visibility, and action buttons */}
